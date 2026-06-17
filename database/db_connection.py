@@ -38,8 +38,8 @@ class DB_connection:
             query_agents_table = """
                 CREATE TABLE IF NOT EXISTS intelligence_db.agents(
                     id INT AUTO_INCREMENT PRIMARY KEY,
-                    name VARCHAR(50),
-                    specialty VARCHAR(50),
+                    name VARCHAR(50) NOT NULL,
+                    specialty VARCHAR(50) NOT NULL,
                     is_active BOOLEAN DEFAULT TRUE,
                     completed_missions INT DEFAULT 0,
                     failed_missions INT DEFAULT 0,
@@ -49,13 +49,13 @@ class DB_connection:
             query_missions_table = """
                 CREATE TABLE IF NOT EXISTS intelligence_db.missions(
                     id INT AUTO_INCREMENT PRIMARY KEY,
-                    title VARCHAR(50),
-                    description TEXT,
-                    location VARCHAR(50),
-                    difficulty INT,
-                    importance INT,
-                    status VARCHAR(50),
-                    risk_level VARCHAR(50),
+                    title VARCHAR(50) NOT NULL,
+                    description TEXT NOT NULL,
+                    location VARCHAR(50) NOT NULL,
+                    difficulty INT CHECK (difficulty BETWEEN 1 AND 10),
+                    importance INT CHECK (importance BETWEEN 1 AND 10),
+                    status VARCHAR(50) NOT NULL,
+                    risk_level VARCHAR(50) NOT NULL,
                     assigned_agent_id INT NULL
                 );
                 """

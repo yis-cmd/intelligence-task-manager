@@ -54,6 +54,9 @@ class MissionCreate(BaseModel):
     importance: int = Field(ge=1, le=10)
     status: MissionStatus = Field(default=MissionStatus.NEW)
 
+class MissionRiskLevel(MissionCreate):
+    risk_level: RiskLevel
+
 
 class Mission(MissionCreate):
     id: int

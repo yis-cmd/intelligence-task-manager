@@ -114,9 +114,9 @@ environment configurations file handler
 4. agent with is_active=False cannot be assigned missions
 5. an agent cannot be assigned more than 3 open missions at a time
 6. only a commander can get a mission with risk_level = Critical
-7. only a mission with status=new can be assigned status becomes assigned
-8. only a mission with status=assigned can be started status becomes in_progress
-9. only a mission with status=in_progress can be finished status becomes failed/completed
+7. only a mission with status=new can be assigned, status becomes assigned
+8. only a mission with status=assigned can be started, status becomes in_progress
+9. only a mission with status=in_progress can be finished, status becomes failed/completed
 10. only a mission with status=new/assigned can be cancelled error otherwise
 
 ## how to run the project

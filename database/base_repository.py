@@ -1,6 +1,6 @@
 from typing import Any
 
-from database.base_models import Agent
+from database.base_models import Agent, AgentUpdate, MissionUpdate
 from database.db_connection import DB_connection
 
 
@@ -32,6 +32,7 @@ class BaseRepository:
         if not values:
             values = []
         with self.connection_pool.get_cursor() as cur:
+            cur.execute("USE intelligence_db;")
             cur.execute(f"{query};", values)
             data = cur.fetchall()
         return data
@@ -51,7 +52,8 @@ class BaseRepository:
         query = f"INSERT INTO {secure_identifier(table_name)} ({secure_identifiers(columns)}) VALUES ({", ".join(["%s"]*len(values))})"
         self._execute(query, values)
 
-    def update(self, table_name: str, data: dict[str, Any], filters: dict[str, Any] | None = None):
+    def update(self, table_name: str, update_data: MissionUpdate | AgentUpdate, filters: dict[str, Any] | None = None):
+        data = update_data.model_dump(exclude_none=True)
         values = []
         updates_str, updates_values = format_updates(data)
         values += updates_values

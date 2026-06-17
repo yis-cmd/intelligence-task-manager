@@ -1,4 +1,4 @@
-from database.base_models import Agent, Mission, MissionCreate, MissionUpdate, MissionStatus, RiskLevel
+from database.base_models import Agent, Mission, MissionCreate, MissionRiskLevel, MissionUpdate, MissionStatus, RiskLevel
 from database.base_repository import BaseRepository
 
 
@@ -21,7 +21,7 @@ class MissionDB(BaseRepository):
 
     def create_mission(self, data: MissionCreate):
         risk_level = (RiskLevel(calculate_risk_level(data.difficulty, data.importance)))
-        mission = Mission.model_validate(data.model_dump() | {risk_level:risk_level})
+        mission = MissionRiskLevel.model_validate(dict(data.model_dump() | {"risk_level":risk_level}))
         self.insert(self.table_name, mission.model_dump())
         return self.select(self.table_name, mission.model_dump())
 
@@ -42,25 +42,14 @@ class MissionDB(BaseRepository):
             return False
         if mission.status != "NEW":
             return False
-        self.update(self.table_name, {"assigned_agent_id":a_id})
+        self.update(self.table_name, MissionUpdate.model_validate({"assigned_agent_id":a_id}), {"id":m_id})
         return True
         
 
     def update_mission_status(
         self, id, status
     ):  
-        mission = Mission.model_validate(self.select(self.table_name, {"id":id})[0])
-        if status == "CANCELLED":
-            pass
-        elif status == "NEW":
-            raise ValueError
-        elif status == "ASSIGNED" and mission.status != "NEW":
-            return False
-        elif status == "IN_PROGRESS" and mission.status != "ASSIGNED":
-            return False
-        elif status == ("FAILED" or "COMPLETED") and mission.status != "IN_PROGRESS":
-            return False
-        self.update(self.table_name, {"status":status})
+        self.update(self.table_name, MissionUpdate.model_validate({"status":status}), {"id":id})
         return True
 
     def get_open_missions_by_agent(self, id):
