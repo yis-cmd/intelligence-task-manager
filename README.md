@@ -96,6 +96,14 @@ count(table_name, filters), returns row count by filters
 
 defines the system's objects's structure
 
+### config.env
+
+environment configurations
+
+### config.py
+
+environment configurations file handler
+
 ## business rules
 
 1. rank has to be Commander / Senior / Junior returns error otherwise
