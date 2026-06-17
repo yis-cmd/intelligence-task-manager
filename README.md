@@ -88,8 +88,9 @@ count_critical_missions(), returns critical missions count
 
 generic sql requests class
 
+_execute(query, values), execute a query returns the fetchall result
 select(table_name, filters), returns the selected objects list
-create(table_name, data), inserts the data returns the data
+insert(table_name, data), inserts the data returns the data
 update(table_name, data, filters) updates the data returns the modified data
 count(table_name, filters), returns row count by filters
 
