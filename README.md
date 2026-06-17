@@ -12,7 +12,7 @@ specialty, varchar, agent's specialty field
 is_active, boolean, default true
 completed_missions, int, default 0
 failed_missions, int, default 0
-agent_rank, enum, can be only one of Junior/Senior, Commander
+agent_rank, enum, can be only one of Junior/Senior/Commander
 
 ### missions
 
@@ -114,4 +114,5 @@ defines the system's objects's structure
 1. create docker container: docker run -d --name intelligence-mysql -e MYSQL_ROOT_PASSWORD=1234
  -e MYSQL_DATABASE=Intelligence_db -p 330
 2. create a python venv: python3.14 -m venv venv
-3. install the dependencies: pip install -r requirements.txt
+3. clone the repository: git clone <https://github.com/yis-cmd/intelligence-task-manager>
+4. install the dependencies: pip install -r requirements.txt
