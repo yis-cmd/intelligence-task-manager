@@ -16,7 +16,7 @@ class DB_connection:
     def get_cursor(self):
         conn = mysql.connector.connect(**self.config.model_dump())
         try:
-            cur = conn.cursor()
+            cur = conn.cursor(dictionary=True)
             yield cur
             conn.commit()
         except Exception:
