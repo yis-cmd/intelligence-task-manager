@@ -49,6 +49,7 @@ cancelled, cancelled
 manages connections
 
 get_connection(), returns an active connection to mysql
+get_cursor(), returns an active cursor to mysql
 create_database(), creates intelligence_db if not exists
 create_tables(), creates both tables if not exists
 
