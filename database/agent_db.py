@@ -1,5 +1,5 @@
 from base_repository import BaseRepository
-from database.base_models import AgentCreate, AgentUpdate
+from database.base_models import Agent, AgentCreate, AgentUpdate
 class Agents(BaseRepository):
     def __init__(self) -> None:
         super().__init__()
@@ -31,8 +31,8 @@ class Agents(BaseRepository):
         self._execute(f"UPDATE `agents` SET failed = failed + 1 WHERE id = {id}")
         return True
     
-    def get_agent_performance(self, id):# returns dict with the keys (completed, failed, total, success rate)
-        agent = self.select(self.table_name, {"id":id})[0]
+    def get_agent_performance(self, id):
+        agent = Agent.model_validate(self.select(self.table_name, {"id":id})[0])
         total = agent.failed_missions + agent.completed_missions
         return {
             "completed":agent.completed_missions,

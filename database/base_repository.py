@@ -43,7 +43,7 @@ class BaseRepository:
             filters_str, values = format_filters(filters)
             query += " WHERE " + filters_str
         data = self._execute(query, values)
-        return [Agent.model_validate(a) for a in data]
+        return data
 
     def insert(self, table_name: str, data: dict[str, Any]):
         columns = list(data)
