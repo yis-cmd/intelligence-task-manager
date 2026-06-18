@@ -26,7 +26,10 @@ class MissionDB(BaseRepository):
         risk_level = (RiskLevel(calculate_risk_level(data.difficulty, data.importance)))
         mission = MissionRiskLevel.model_validate(dict(data.model_dump() | {"risk_level":risk_level}))
         self.insert(self.table_name, mission.model_dump())
-        return self.select(self.table_name, mission.model_dump())
+        response = self.select(self.table_name, mission.model_dump())
+        if len(response) > 1:
+            return response[len(response) -1]
+        return response[0]
 
     def get_all_missions(self):
         return self.select(self.table_name)

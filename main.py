@@ -1,31 +1,9 @@
+from fastapi import FastAPI
 
+from routes import agent_routes, mission_routes, report_routes
 
-from database.base_models import (
-    Agent,
-    AgentRank,
-    Mission,
-    AgentCreate,
-    MissionCreate,
-    MissionStatus,
-)
-from database.mission_db import MissionDB
-from database.agent_db import AgentDB
-import intelligence_unit
+app = FastAPI()
 
-agent_manager = AgentDB()
-mission_manager = MissionDB()
+app.include_router(agent_routes.agents_router)
+app.include_router(mission_routes.missions_router)
 
-# mission_manager.create_mission(
-#     MissionCreate(
-#         title="gvs",
-#         description="rre",
-#         location="d",
-#         difficulty=3,
-#         importance=9,
-#         status=MissionStatus.NEW,
-#     )
-# )
-
-# agent_manager.create_agent(AgentCreate(name="yis", specialty="gds", agent_rank=AgentRank.COMMANDER))
-
-intelligence_unit.assign_mission(1,1)

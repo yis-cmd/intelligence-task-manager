@@ -13,7 +13,10 @@ class AgentDB(BaseRepository):
 
     def create_agent(self, data: AgentCreate):
         self.insert(self.table_name, data.model_dump())
-        return self.select(self.table_name, data.model_dump())
+        response = self.select(self.table_name, data.model_dump())
+        if len(response) > 1:
+            return response[len(response) -1]
+        return response[0]
 
     def get_all_agents(self):
         return self.select(self.table_name)
@@ -33,11 +36,11 @@ class AgentDB(BaseRepository):
         return True
 
     def increment_completed(self, id: int):
-        self._execute(f"UPDATE `agents` SET completed = completed + 1 WHERE id = {id}")
+        self._execute(f"UPDATE `agents` SET completed_missions = completed_missions + 1 WHERE id = {id}")
         return True
 
     def increment_failed(self, id):
-        self._execute(f"UPDATE `agents` SET failed = failed + 1 WHERE id = {id}")
+        self._execute(f"UPDATE `agents` SET failed_missions = failed_missions + 1 WHERE id = {id}")
         return True
 
     def get_agent_performance(self, id):
@@ -49,6 +52,10 @@ class AgentDB(BaseRepository):
             self.select("missions", {"assigned_agent_id": id, "status": "IN_PROGRESS"})
         )
         total = agent.failed_missions + agent.completed_missions + assigned + in_progress
+        if total == 0:
+            return {
+                "failed": "not enough missions to check"
+            }
         return {
             "completed": agent.completed_missions,
             "failed": agent.failed_missions,

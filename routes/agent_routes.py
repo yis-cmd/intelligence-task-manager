@@ -7,26 +7,28 @@ import intelligence_unit
 
 agents_router = APIRouter()
 
-agents_router.post("/agents")
+@agents_router.post("/agents", status_code=201)
 def create_agent(data:AgentCreate):
-    intelligence_unit.agent_manager.create_agent(data)
+    return intelligence_unit.agent_manager.create_agent(data)
+    
 
-agents_router.get("/agents")
+@agents_router.get("/agents")
 def get_all_agents():
     return intelligence_unit.agent_manager.get_all_agents()
 
-agents_router.get("/agents/{id}")
+@agents_router.get("/agents/{id}")
 def get_agent_by_id(id:int):
     try:
         return intelligence_unit.agent_manager.get_agent_by_id(id)
     except AgentNotExistsError:
         raise HTTPException(404, "agent not found")
     
-agents_router.put("/agents/{id}")
+@agents_router.put("/agents/{id}")
 def update_agent(id:int, data:AgentUpdate):
     intelligence_unit.agent_manager.update_agent(id, data)
+    return {"success": "agent updated"}
     
-agents_router.put("/agents/{id}/deactivate")
+@agents_router.put("/agents/{id}/deactivate")
 def deactivate_agent(id:int):
     try:
         intelligence_unit.deactivate_agent(id)
@@ -35,7 +37,7 @@ def deactivate_agent(id:int):
     except intelligence_unit.AgentInactiveError:
         raise HTTPException(400, "agent already inactive")
     
-agents_router.get("/agents/{id}/performance")
+@agents_router.get("/agents/{id}/performance")
 def get_agent_performance(id:int):
     try:
         return intelligence_unit.agent_manager.get_agent_performance(id)
