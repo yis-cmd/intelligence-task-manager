@@ -4,8 +4,10 @@ from fastapi import APIRouter, HTTPException
 from database.agent_db import AgentNotExistsError
 from database.base_models import AgentCreate, AgentUpdate
 import intelligence_unit
+from create_logger import create_logger
 
 agents_router = APIRouter()
+logger = create_logger(__name__)
 
 @agents_router.post("/agents", status_code=201)
 def create_agent(data:AgentCreate):

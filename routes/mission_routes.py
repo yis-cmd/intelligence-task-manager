@@ -4,8 +4,10 @@ from database.agent_db import AgentNotExistsError
 from database.base_models import MissionCreate
 from database.mission_db import MissionNotExistsError
 import intelligence_unit
+from create_logger import create_logger
 
 missions_router = APIRouter()
+logger = create_logger(__name__)
 
 @missions_router.post("/missions", status_code=201)
 def create_mission(data:MissionCreate):
