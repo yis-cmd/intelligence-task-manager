@@ -71,4 +71,4 @@ class BaseRepository:
             filters_str, values = format_filters(filters)
             query += " WHERE " + filters_str
         response = self._execute(query, values)
-        return response['COUNT(*)'] #type: ignore
+        return response[0]['COUNT(*)'] #type: ignore

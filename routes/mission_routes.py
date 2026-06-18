@@ -7,7 +7,7 @@ import intelligence_unit
 
 missions_router = APIRouter()
 
-@missions_router.post("/missions")
+@missions_router.post("/missions", status_code=201)
 def create_mission(data:MissionCreate):
     return intelligence_unit.mission_manager.create_mission(data)
 
