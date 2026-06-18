@@ -16,7 +16,7 @@ def get_summary_report():
         "open_missions": intelligence_unit.mission_manager.count_open_missions(),
         "completed_missions": intelligence_unit.mission_manager.count_by_status("COMPLETED"),
         "failed_missions": intelligence_unit.mission_manager.count_by_status("FAILED"),
-        "critical_missions": intelligence_unit.mission_manager.count_by_status("CANCELLED")
+        "critical_missions": intelligence_unit.mission_manager.count_critical_missions()
         }
     logger.info("summary built")
     return data
