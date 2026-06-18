@@ -1,6 +1,9 @@
 from database.base_models import Agent, Mission, MissionCreate, MissionRiskLevel, MissionUpdate, MissionStatus, RiskLevel
 from database.base_repository import BaseRepository
 
+class MissionNotExistsError(KeyError):
+    pass
+
 
 def calculate_risk_level(difficulty: int, importance: int):
     value = difficulty * 2 + importance
@@ -29,19 +32,12 @@ class MissionDB(BaseRepository):
         return self.select(self.table_name)
 
     def get_mission_by_id(self, id):
-        return self.select(self.table_name, {"id": id})
+        response =  self.select(self.table_name, {"id": id})
+        if not response:
+            raise MissionNotExistsError
+        return Mission.model_validate(response[0])
 
     def assign_mission(self, m_id, a_id):
-        agent = self.select("agents", {"id":a_id})
-        mission = self.select(self.table_name, {"id":m_id})
-        if not agent or not mission:
-            raise ValueError
-        agent = Agent.model_validate(agent[0])
-        mission = Mission.model_validate(mission[0])
-        if mission.risk_level == "CRITICAL" and agent.agent_rank != "Commander":
-            return False
-        if mission.status != "NEW":
-            return False
         self.update(self.table_name, MissionUpdate.model_validate({"assigned_agent_id":a_id}), {"id":m_id})
         return True
         
@@ -65,10 +61,6 @@ class MissionDB(BaseRepository):
         return self.count(self.table_name)
 
     def count_by_status(self, status):
-        try:
-            MissionStatus(status)
-        except Exception:
-            raise ValueError("Invalid status")
         return self.count(self.table_name, {"status": status})
 
     def count_open_missions(self):

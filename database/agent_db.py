@@ -1,6 +1,8 @@
 from database.base_repository import BaseRepository
 from database.base_models import Agent, AgentCreate, AgentUpdate
 
+class AgentNotExistsError(KeyError):
+    pass
 
 class AgentDB(BaseRepository):
     def __init__(self) -> None:
@@ -17,7 +19,10 @@ class AgentDB(BaseRepository):
         return self.select(self.table_name)
 
     def get_agent_by_id(self, id):
-        return self.select(self.table_name, {"id": id})
+        response =  self.select(self.table_name, {"id": id})
+        if not response:
+            raise AgentNotExistsError
+        return Agent.model_validate(response[0])
 
     def update_agent(self, id, data: AgentUpdate):
         self.update(self.table_name, data, {"id": id})
@@ -36,7 +41,7 @@ class AgentDB(BaseRepository):
         return True
 
     def get_agent_performance(self, id):
-        agent = Agent.model_validate(self.select(self.table_name, {"id": id})[0])
+        agent = self.get_agent_by_id(id)
         assigned: int = len(
             self.select("missions", {"assigned_agent_id": id, "status": "ASSIGNED"})
         )

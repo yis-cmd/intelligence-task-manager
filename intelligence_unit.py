@@ -1,88 +1,78 @@
 from pydantic import ValidationError
 
 from database.base_models import Agent, Mission, MissionStatus, MissionUpdate
-from database.mission_db import MissionDB
-from database.agent_db import AgentDB
+from database.mission_db import MissionDB, MissionNotExistsError
+from database.agent_db import AgentDB, AgentNotExistsError
 
 agent_manager = AgentDB()
 mission_manager = MissionDB()
 
+class MissionAlreadyAssignedError(KeyError):
+    pass
+
+class AgentInactiveError(Exception):
+    pass
+
+class AgentNotAuthorizedError(Exception):
+    pass
+
+class TooManyMissionsError(Exception):
+    pass
+
+class OngoingMissionCancellingError(Exception):
+    pass
+
+class InvalidUpdateStatusError(Exception):
+    pass
 
 def assign_mission(m_id: int, a_id: int):
-    try:
-        agent = Agent.model_validate(agent_manager.get_agent_by_id(a_id)[0])
-        mission = Mission.model_validate(mission_manager.get_mission_by_id(m_id)[0])
-    except ValidationError:
-        raise
-    agent_mission_count = len(mission_manager.get_open_missions_by_agent(a_id))
+    agent = agent_manager.get_agent_by_id(a_id)
+    mission = mission_manager.get_mission_by_id(m_id)
+    if len(mission_manager.get_open_missions_by_agent(a_id)) > 3:
+        raise TooManyMissionsError
     if mission.status != "NEW":
-        return False
+        raise MissionAlreadyAssignedError
     if not agent.is_active:
-        return False
+        raise AgentInactiveError
     if mission.risk_level == "CRITICAL" and agent.agent_rank != "Commander":
-        return False
-    if agent_mission_count >= 3:
-        return False
+        raise AgentNotAuthorizedError
     mission_manager.assign_mission(m_id, a_id)
     mission_manager.update_mission_status(
         m_id, MissionUpdate(status=MissionStatus.ASSIGNED)
     )
 
 def update_mission_status(m_id, status:MissionStatus):
-    try:
-        mission = Mission.model_validate(mission_manager.get_mission_by_id(m_id)[0])
-    except Exception:
-        raise ValueError
+    mission = mission_manager.get_mission_by_id(m_id)
     if status == "CANCELLED" and mission.status != ("NEW" or "ASSIGNED"):
-        raise ValueError
+        raise OngoingMissionCancellingError
     elif status == "NEW":
-        raise ValueError
+        raise InvalidUpdateStatusError("cannot update to NEW")
     elif status == "ASSIGNED" and mission.status != "NEW":
-        raise ValueError
+        raise InvalidUpdateStatusError("can only assign a new mission")
     elif status == "IN_PROGRESS" and mission.status != "ASSIGNED":
-        raise ValueError
+        raise InvalidUpdateStatusError("can only start assigned missions")
     elif status == ("FAILED" or "COMPLETED") and mission.status != "IN_PROGRESS":
-        raise ValueError
+        raise InvalidUpdateStatusError("not ongoing mission cannot be completed")
     mission_manager.update_mission_status(m_id, status)
     return True
 
 def complete_mission(m_id):
-    try:
-        mission = Mission.model_validate(mission_manager.get_mission_by_id(m_id)[0])
-    except Exception:
-        raise ValueError
-    if mission.status != "IN_PROGRESS":
-        raise ValueError
+    mission = mission_manager.get_mission_by_id(m_id)
     update_mission_status(m_id, MissionStatus.COMPLETED)
     assert mission.assigned_agent_id
     agent_manager.increment_completed(mission.assigned_agent_id)
 
 def cancel_mission(m_id:int):
-    try:
-        mission = Mission.model_validate(mission_manager.get_mission_by_id(m_id)[0])
-    except Exception:
-        raise ValueError
-    if mission.status != ("NEW" or "ASSIGNED"):
-        raise ValueError
     update_mission_status(m_id, MissionStatus.CANCELLED)
 
 def failed_mission(m_id):
-    try:
-        mission = Mission.model_validate(mission_manager.get_mission_by_id(m_id)[0])
-    except Exception:
-        raise ValueError
-    if mission.status != "IN_PROGRESS":
-        raise ValueError
+    mission = mission_manager.get_mission_by_id(m_id)
     update_mission_status(m_id, MissionStatus.FAILED)
     assert mission.assigned_agent_id
     agent_manager.increment_failed(mission.assigned_agent_id)
 
 def deactivate_agent(a_id:int):
-    try:
-        agent = Agent.model_validate(agent_manager.get_agent_by_id(a_id)[0])
-    except ValidationError:
-        raise
+    agent = agent_manager.get_agent_by_id(a_id)
     if not agent.is_active:
-        raise ValueError
+        raise AgentInactiveError
     agent_manager.deactivate_agent(a_id)
-
