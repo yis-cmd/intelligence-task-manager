@@ -98,6 +98,10 @@ count(table_name, filters), returns row count by filters
 
 defines the system's objects's structure
 
+### intelligence unit
+
+service module connects between the server layer to the db layer
+
 ### config.env
 
 environment configurations
