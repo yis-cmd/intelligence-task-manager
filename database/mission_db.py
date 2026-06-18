@@ -28,8 +28,8 @@ class MissionDB(BaseRepository):
         self.insert(self.table_name, mission.model_dump())
         response = self.select(self.table_name, mission.model_dump())
         if len(response) > 1:
-            return response[len(response) -1]
-        return response[0]
+            return Mission.model_validate(response[len(response) -1])
+        return Mission.model_validate(response[0])
 
     def get_all_missions(self):
         return self.select(self.table_name)
