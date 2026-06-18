@@ -15,8 +15,8 @@ class AgentDB(BaseRepository):
         self.insert(self.table_name, data.model_dump())
         response = self.select(self.table_name, data.model_dump())
         if len(response) > 1:
-            return response[len(response) -1]
-        return response[0]
+            return Agent.model_validate(response[len(response) -1])
+        return Agent.model_validate(response[0])
 
     def get_all_agents(self):
         return self.select(self.table_name)
