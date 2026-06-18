@@ -173,7 +173,7 @@ environment configurations file handler
 ## how to run the project (linux)
 
 1. create docker container: docker run -d --name intelligence-mysql -e MYSQL_ROOT_PASSWORD=1234 -e MYSQL_DATABASE=Intelligence_db -p 3306:3306 mysql:8.0
-2. clone the repository: git clone <https://github.com/yis-cmd/intelligence-task-manager>
+2. clone the repository: git clone https://github.com/yis-cmd/intelligence-task-manager
 3. enter the project dir: cd intelligence-task-manager
 4. create a python venv: python3.14 -m venv venv
 5. activate the venv: source venv/bin/activate

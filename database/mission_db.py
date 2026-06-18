@@ -72,7 +72,7 @@ class MissionDB(BaseRepository):
         return len(assigned + in_progress)
 
     def count_critical_missions(self):
-        return self.select(self.table_name, {"risk_level": "CRITICAL"})
+        return len(self.select(self.table_name, {"risk_level": "CRITICAL"}))
     
     def get_top_agent(self):
         data = self._execute(f"SELECT * FROM agents WHERE completed_missions = (SELECT MAX(completed_missions) FROM agents)") 
