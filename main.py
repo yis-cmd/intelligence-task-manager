@@ -26,3 +26,6 @@ mission_manager = MissionDB()
 #     )
 # )
 
+# agent_manager.create_agent(AgentCreate(name="yis", specialty="gds", agent_rank=AgentRank.COMMANDER))
+
+intelligence_unit.assign_mission(1,1)

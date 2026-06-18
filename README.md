@@ -106,6 +106,57 @@ environment configurations
 
 environment configurations file handler
 
+## endpoints
+
+### agents router
+
+1. POST, /agents, create new agent
+2. GET, /agents, get all agents
+3. GET, /agents/{id}, get agent by id
+4. PUT, /agents/{id}, update agent by id
+5. PUT, /agents/{id}/deactivate, deactivate agent
+6. GET, /agents/{id}/performance, get agent performance
+
+### missions router
+
+1. POST, /missions, create mission
+2. GET, /missions, get all missions
+3. GET, /missions/{id}, get mission by id
+4. PUT, /missions/{id}/assign/{agent_id}, assign mission to agent
+5. PUT, /missions/{id}/start, start mission
+6. PUT, /missions/{id}/complete, complete mission successfully
+7. PUT, /missions/{id}/fail, finish mission failed
+8. PUT, /missions/{id}/cancel, cancel mission
+
+### reports router
+
+1. GET, /summary/report, general summary
+2. GET, /reports/missions-by-status, missions by status
+3. GET, /reports/top-agent, get top agent
+
+#### examples reports
+
+##### general summary
+
+{
+"active_agents_count": 0,
+"total_missions": 0,
+"open_missions": 0,
+"completed_missions": 0,
+"failed_missions": 0,
+"critical_missions": 0
+}
+
+##### mission by status
+
+{
+"open": 5,
+"in_progress": 3,
+"completed": 12,
+"failed": 1,
+"critical": 2
+}
+
 ## business rules
 
 1. rank has to be Commander / Senior / Junior returns error otherwise
@@ -126,3 +177,4 @@ environment configurations file handler
 2. create a python venv: python3.14 -m venv venv
 3. clone the repository: git clone <https://github.com/yis-cmd/intelligence-task-manager>
 4. install the dependencies: pip install -r requirements.txt
+5. uvicorn main:app
