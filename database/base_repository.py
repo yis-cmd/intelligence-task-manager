@@ -1,5 +1,7 @@
 from typing import Any
 
+from pydantic import BaseModel
+
 from database.base_models import Agent, AgentUpdate, MissionUpdate
 from database.db_connection import DB_connection
 
@@ -52,8 +54,10 @@ class BaseRepository:
         query = f"INSERT INTO {secure_identifier(table_name)} ({secure_identifiers(columns)}) VALUES ({", ".join(["%s"]*len(values))})"
         self._execute(query, values)
 
-    def update(self, table_name: str, update_data: MissionUpdate | AgentUpdate, filters: dict[str, Any] | None = None):
+    def update(self, table_name: str, update_data: BaseModel, filters: dict[str, Any] | None = None):
         data = update_data.model_dump(exclude_none=True)
+        if not data:
+            raise ValueError
         values = []
         updates_str, updates_values = format_updates(data)
         values += updates_values

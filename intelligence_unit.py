@@ -31,7 +31,6 @@ class InvalidUpdateStatusError(Exception):
 
 
 def update_mission_status(m_id, status: MissionStatus):
-    print("\nhere\n")
     mission = mission_manager.get_mission_by_id(m_id)
     if status == "CANCELLED" and mission.status != ("NEW" or "ASSIGNED"):
         raise InvalidUpdateStatusError("started missions cannot be cancelled")

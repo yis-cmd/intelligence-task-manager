@@ -46,6 +46,9 @@ def update_agent(id:int, data:AgentUpdate):
     except AgentNotExistsError:
         logger.error(f"Agent not found: {id}")
         raise HTTPException(404, "agent not found")
+    except ValueError:
+        logger.error("no values to update")
+        raise HTTPException(422, "no values to update")
     
 @agents_router.put("/agents/{id}/deactivate")
 def deactivate_agent(id:int):
@@ -53,6 +56,7 @@ def deactivate_agent(id:int):
     try:
         intelligence_unit.deactivate_agent(id)
         logger.info(f"deactivated agent id={id}")
+        return "deactivated"
     except AgentNotExistsError:
         logger.error(f"Agent not found: {id}")
         raise HTTPException(404, "agent not found")

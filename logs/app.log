@@ -1,2 +1,99 @@
 2026-06-18 12:06:34,038 | INFO | GET, /reports/top-agent
 2026-06-18 12:06:34,080 | INFO | top agent retrieved
+2026-06-18 15:24:46,935 | INFO | GET, /reports/missions-by-status
+2026-06-18 15:24:47,108 | INFO | dict by status built
+2026-06-18 15:25:23,383 | INFO | GET, /summary/report
+2026-06-18 15:25:23,586 | INFO | summary built
+2026-06-18 15:25:39,950 | INFO | GET, /reports/top-agent
+2026-06-18 15:25:39,979 | INFO | top agent retrieved
+2026-06-18 15:29:35,945 | INFO | POST, /agents
+2026-06-18 15:29:36,001 | INFO | Agent created successfully: id=1
+2026-06-18 15:30:14,236 | INFO | POST, /agents
+2026-06-18 15:30:14,291 | INFO | Agent created successfully: id=2
+2026-06-18 15:33:29,746 | INFO | POST, /missions
+2026-06-18 15:33:29,805 | INFO | created mission: id=1
+2026-06-18 15:33:51,524 | INFO | POST, /missions
+2026-06-18 15:33:51,595 | INFO | created mission: id=2
+2026-06-18 15:34:27,943 | INFO | POST, /missions
+2026-06-18 15:34:27,999 | INFO | created mission: id=3
+2026-06-18 15:34:28,935 | INFO | POST, /missions
+2026-06-18 15:34:28,991 | INFO | created mission: id=4
+2026-06-18 15:34:30,627 | INFO | POST, /missions
+2026-06-18 15:34:30,685 | INFO | created mission: id=5
+2026-06-18 15:34:31,342 | INFO | POST, /missions
+2026-06-18 15:34:31,396 | INFO | created mission: id=6
+2026-06-18 15:34:31,962 | INFO | POST, /missions
+2026-06-18 15:34:32,016 | INFO | created mission: id=7
+2026-06-18 15:34:32,577 | INFO | POST, /missions
+2026-06-18 15:34:32,629 | INFO | created mission: id=8
+2026-06-18 15:34:33,179 | INFO | POST, /missions
+2026-06-18 15:34:33,230 | INFO | created mission: id=9
+2026-06-18 15:34:33,748 | INFO | POST, /missions
+2026-06-18 15:34:34,012 | INFO | created mission: id=10
+2026-06-18 15:35:06,457 | INFO | POST, /agents
+2026-06-18 15:35:06,534 | INFO | Agent created successfully: id=3
+2026-06-18 15:35:16,900 | INFO | POST, /agents
+2026-06-18 15:35:16,970 | INFO | Agent created successfully: id=4
+2026-06-18 15:35:18,996 | INFO | POST, /agents
+2026-06-18 15:35:19,053 | INFO | Agent created successfully: id=5
+2026-06-18 15:35:19,660 | INFO | POST, /agents
+2026-06-18 15:35:19,716 | INFO | Agent created successfully: id=6
+2026-06-18 15:35:20,286 | INFO | POST, /agents
+2026-06-18 15:35:20,354 | INFO | Agent created successfully: id=7
+2026-06-18 15:35:20,953 | INFO | POST, /agents
+2026-06-18 15:35:21,030 | INFO | Agent created successfully: id=8
+2026-06-18 15:35:43,399 | INFO | GET, /agents
+2026-06-18 15:35:43,424 | INFO | got list of agents
+2026-06-18 15:35:59,847 | INFO | GET, /missions
+2026-06-18 15:35:59,869 | INFO | missions list built
+2026-06-18 15:36:05,084 | INFO | GET, /missions1
+2026-06-18 15:36:05,110 | INFO | found mission: id=1
+2026-06-18 15:36:10,298 | INFO | GET, /missions2
+2026-06-18 15:36:10,325 | INFO | found mission: id=2
+2026-06-18 15:36:22,878 | INFO | GET, /agents/2
+2026-06-18 15:36:22,907 | INFO | found agent id=2
+2026-06-18 15:36:25,855 | INFO | GET, /agents/2/performance
+2026-06-18 15:36:25,936 | INFO | got agent performance: id=2
+2026-06-18 15:37:15,545 | INFO | GET, /agents/1
+2026-06-18 15:37:15,568 | INFO | found agent id=1
+2026-06-18 15:37:53,727 | INFO | PUT, /agents/1
+2026-06-18 15:37:53,755 | INFO | updated agent id=1
+2026-06-18 15:38:10,824 | INFO | GET, /agents/1
+2026-06-18 15:38:10,851 | INFO | found agent id=1
+2026-06-18 15:38:42,248 | INFO | PUT, /agents/1/deactivate
+2026-06-18 15:38:42,306 | INFO | deactivated agent id=1
+2026-06-18 15:39:18,782 | INFO | GET, /agents/1
+2026-06-18 15:39:18,817 | INFO | found agent id=1
+2026-06-18 15:39:59,551 | INFO | GET, /missions2
+2026-06-18 15:39:59,587 | INFO | found mission: id=2
+2026-06-18 15:40:45,680 | INFO | PUT, /missions/1/assign/1
+2026-06-18 15:40:45,771 | ERROR | cannot assign to inactive agent 1
+2026-06-18 15:40:51,246 | INFO | PUT, /missions/1/assign/2
+2026-06-18 15:40:51,637 | INFO | mission 1 assigned to 2
+2026-06-18 15:40:57,515 | INFO | PUT, /missions/6/assign/2
+2026-06-18 15:40:57,705 | INFO | mission 6 assigned to 2
+2026-06-18 15:41:10,602 | INFO | GET, /missions6
+2026-06-18 15:41:10,637 | INFO | found mission: id=6
+2026-06-18 15:41:18,255 | INFO | GET, /missions5
+2026-06-18 15:41:18,279 | INFO | found mission: id=5
+2026-06-18 15:41:52,978 | INFO | POST, /missions
+2026-06-18 15:41:53,037 | INFO | created mission: id=11
+2026-06-18 15:42:08,604 | INFO | PUT, /missions/11/assign/2
+2026-06-18 15:42:08,709 | ERROR | agent 2 cannot be assigned critical missions
+2026-06-18 15:42:13,810 | INFO | PUT, /missions/11/assign/7
+2026-06-18 15:42:13,997 | INFO | mission 11 assigned to 7
+2026-06-18 15:42:23,367 | INFO | PUT, /agents/7
+2026-06-18 15:44:48,419 | INFO | PUT, /agents/7
+2026-06-18 15:44:48,419 | INFO | updated agent id=7
+2026-06-18 15:46:16,434 | INFO | PUT, /agents/7
+2026-06-18 15:46:16,434 | INFO | updated agent id=7
+2026-06-18 15:48:15,815 | INFO | PUT, /agents/7
+2026-06-18 15:48:15,815 | ERROR | no values to update
+2026-06-18 15:49:13,189 | INFO | PUT, /missions/1/start
+2026-06-18 15:49:13,255 | INFO | mission 1 started
+2026-06-18 15:49:20,411 | INFO | GET, /missions1
+2026-06-18 15:49:20,439 | INFO | found mission: id=1
+2026-06-18 15:49:40,078 | INFO | PUT, /missions/1/complete
+2026-06-18 15:49:40,222 | INFO | mission 1 completed
+2026-06-18 15:49:47,761 | INFO | GET, /missions1
+2026-06-18 15:49:47,786 | INFO | found mission: id=1
