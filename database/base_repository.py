@@ -32,7 +32,7 @@ class BaseRepository:
         if not values:
             values = []
         with self.connection_pool.get_cursor() as cur:
-            cur.execute("USE intelligence_db;")
+            cur.execute("USE Intelligence_db;")
             cur.execute(f"{query};", values)
             data = cur.fetchall()
         return data

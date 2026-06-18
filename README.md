@@ -30,7 +30,7 @@ assigned_agent_id, int, null at the start
 
 ##### the equation to generate risk_level is
 
-difficulty * 2 + importance
+difficulty \* 2 + importance
 1-9 > low, 10-17 > medium, 18-24 > high, 25+ > critical
 
 ##### possible status
@@ -50,7 +50,7 @@ manages connections
 
 get_connection(), returns an active connection to mysql
 get_cursor(), returns an active cursor to mysql
-create_database(), creates intelligence_db if not exists
+create_database(), creates Intelligence_db if not exists
 create_tables(), creates both tables if not exists
 
 both create_database and create_tables run when the program loads
@@ -88,7 +88,7 @@ count_critical_missions(), returns critical missions count
 
 generic sql requests class
 
-_execute(query, values), execute a query returns the fetchall result
+\_execute(query, values), execute a query returns the fetchall result
 select(table_name, filters), returns the selected objects list
 insert(table_name, data), inserts the data returns the data
 update(table_name, data, filters) updates the data returns the modified data
@@ -170,11 +170,12 @@ environment configurations file handler
 9. only a mission with status=in_progress can be finished, status becomes failed/completed
 10. only a mission with status=new/assigned can be cancelled error otherwise
 
-## how to run the project
+## how to run the project (linux)
 
-1. create docker container: docker run -d --name intelligence-mysql -e MYSQL_ROOT_PASSWORD=1234
- -e MYSQL_DATABASE=Intelligence_db -p 330
-2. create a python venv: python3.14 -m venv venv
-3. clone the repository: git clone <https://github.com/yis-cmd/intelligence-task-manager>
-4. install the dependencies: pip install -r requirements.txt
-5. uvicorn main:app
+1. create docker container: docker run -d --name intelligence-mysql -e MYSQL_ROOT_PASSWORD=1234 -e MYSQL_DATABASE=Intelligence_db -p 3306:3306 mysql:8.0
+2. clone the repository: git clone <https://github.com/yis-cmd/intelligence-task-manager>
+3. enter the project dir: cd intelligence-task-manager
+4. create a python venv: python3.14 -m venv venv
+5. activate the venv: source venv/bin/activate
+6. install the dependencies: pip install -r requirements.txt
+7. start the server: uvicorn main:app

@@ -29,14 +29,14 @@ class DB_connection:
     
     def create_database(self):
         with self.get_cursor() as cur:
-            cur.execute("CREATE DATABASE IF NOT EXISTS `intelligence_db`;")
+            cur.execute("CREATE DATABASE IF NOT EXISTS `Intelligence_db`;")
 
     
 
     def create_tables(self):
         with self.get_cursor() as cur:
             query_agents_table = """
-                CREATE TABLE IF NOT EXISTS intelligence_db.agents(
+                CREATE TABLE IF NOT EXISTS Intelligence_db.agents(
                     id INT AUTO_INCREMENT PRIMARY KEY,
                     name VARCHAR(50) NOT NULL,
                     specialty VARCHAR(50) NOT NULL,
@@ -47,7 +47,7 @@ class DB_connection:
                 );
                 """
             query_missions_table = """
-                CREATE TABLE IF NOT EXISTS intelligence_db.missions(
+                CREATE TABLE IF NOT EXISTS Intelligence_db.missions(
                     id INT AUTO_INCREMENT PRIMARY KEY,
                     title VARCHAR(50) NOT NULL,
                     description TEXT NOT NULL,
